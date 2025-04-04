@@ -26,7 +26,7 @@ def predict():
         if input_data['Fertilizer'] < 0 or input_data['Pesticide'] < 0 or input_data['Annual_Rainfall'] < 0:
             raise ValueError("Fertilizer, Pesticide, and Annual Rainfall must be non-negative.")
         
-        scaler = StandardScaler()
+        scaler = joblib.load('scaler.pkl')
         input_df = pd.DataFrame([input_data])
         scale_columns = ['Area', 'Annual_Rainfall', 'Fertilizer', 'Pesticide']
         input_df[scale_columns] = scaler.transform(input_df[scale_columns])
