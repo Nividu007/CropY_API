@@ -3,7 +3,6 @@ from sklearn.preprocessing import StandardScaler
 import pandas as pd
 from flask_cors import CORS
 import joblib
-import numpy as np
 
 app = Flask(__name__)
 CORS(app)
@@ -26,9 +25,12 @@ def predict():
             raise ValueError("Area must be greater than 0.")
         if input_data['Fertilizer'] < 0 or input_data['Pesticide'] < 0 or input_data['Annual_Rainfall'] < 0:
             raise ValueError("Fertilizer, Pesticide, and Annual Rainfall must be non-negative.")
-
+        
+        scaler = StandardScaler()
         input_df = pd.DataFrame([input_data])
-
+        scale_columns = ['Area', 'Annual_Rainfall', 'Fertilizer', 'Pesticide']
+        input_df[scale_columns] = scaler.transform(input_df[scale_columns])
+        input_df = pd.get_dummies(input_df, columns=['Crop', 'Season'], drop_first=True)
 
         input_df = pd.get_dummies(input_df, columns=['Crop', 'Season'])
 
