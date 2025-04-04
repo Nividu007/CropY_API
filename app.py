@@ -30,8 +30,6 @@ def predict():
         input_df = pd.DataFrame([input_data])
         scale_columns = ['Area', 'Annual_Rainfall', 'Fertilizer', 'Pesticide']
         input_df[scale_columns] = scaler.transform(input_df[scale_columns])
-        input_df = pd.get_dummies(input_df, columns=['Crop', 'Season'], drop_first=True)
-
         input_df = pd.get_dummies(input_df, columns=['Crop', 'Season'])
 
         model_features = model.feature_names_in_
